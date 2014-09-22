@@ -41,7 +41,7 @@ public class HandlerDatabase {
         ContentValues values = new ContentValues();
         values.put(ModelDatabase.CHAT_ID, Id);
         values.put(ModelDatabase.CHAT_NAME, "");
-        values.put(ModelDatabase.CHAT_MESSAGE, "true");
+        values.put(ModelDatabase.CHAT_MESSAGE, Message);
         values.put(ModelDatabase.CHAT_TIME, "false");
         database.insertWithOnConflict(ModelDatabase.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_IGNORE);
     }
@@ -95,13 +95,13 @@ public class HandlerDatabase {
 //                null
 //        );
 //    }
-//    public void deleteChatById(String id){
-//        database.delete(
-//                ModelDatabase.TABLE_NAME,
-//                ModelDatabase.KITTY_URL + " like '%" + id + "%'",
-//                null
-//        );
-//    }
+    public void deleteChatById(String id){
+        database.delete(
+                ModelDatabase.TABLE_NAME,
+                ModelDatabase.CHAT_ID + " like '%" + id + "%'",
+                null
+        );
+    }
 
     /**
      * Additional Helpers

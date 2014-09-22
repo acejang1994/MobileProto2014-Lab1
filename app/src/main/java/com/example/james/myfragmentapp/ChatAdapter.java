@@ -19,16 +19,17 @@ import java.util.List;
 /**
  * Created by james on 9/11/14.
  */
-public class ChatApdapter extends ArrayAdapter{
+public class ChatAdapter extends ArrayAdapter{
     private List<Chat> chats = new ArrayList<Chat>();
     private int resource;
     private Context context;
 
 
-    public ChatApdapter(Context context, int resource, List<Chat> objects) {
+    public ChatAdapter(Context context, int resource, List<Chat> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
+        this.chats = objects;
 
     }
 
@@ -55,6 +56,10 @@ public class ChatApdapter extends ArrayAdapter{
         holder.picture = (ImageView) view.findViewById(R.id.item_profile_picture);
         fillViews(holder, chats.get(position));
         return view;
+    }
+    @Override
+    public int getCount(){
+        return this.chats.size();
     }
 
     private void fillViews(ChatHolder holder, Chat chat){

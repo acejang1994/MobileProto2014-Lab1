@@ -1,7 +1,10 @@
 package com.example.james.myfragmentapp;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,18 +15,23 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by james on 9/11/14.
  */
 public class MyFragment extends Fragment{
 
-    ChatApdapter chatApdapter;
+    ChatAdapter chatApdapter;
     Context context;
 
 
     public MyFragment()  {
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.context = activity;
     }
 
     @Override
@@ -36,11 +44,30 @@ public class MyFragment extends Fragment{
         Log.i("opening database", "Debug");
         handler.open();
 
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
 
+        alert.setTitle("Delete or Edit Chat")
+                .setMessage("Delete this Entry?");
+
+        final EditText edit = new EditText(context);
+        alert.setView(edit);
+        alert.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                        String change = edit.getText();
+                    }
+                })
+                .setNegativeButton("delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
 
         final ArrayList<Chat> listChats = new ArrayList<Chat>();
 
-        final ChatApdapter adapter = new ChatApdapter(getActivity(),R.layout.chat_item, listChats);
+        final ChatAdapter adapter = new ChatAdapter(getActivity(),R.layout.chat_item, listChats);
         myListView.setAdapter(adapter);
 
         final EditText editText = (EditText)rootView.findViewById(R.id.my_edittext);
@@ -52,8 +79,6 @@ public class MyFragment extends Fragment{
                 String message = editText.getText().toString();
                 Chat chat = new Chat("id", "user", message);
                 handler.addChatToDatabase("id", message);
-                handler.updateChat(chat);
-
 
                 listChats.add(chat);
                 editText.getText().clear();
