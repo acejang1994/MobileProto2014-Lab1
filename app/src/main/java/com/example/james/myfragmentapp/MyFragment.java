@@ -1,6 +1,7 @@
 package com.example.james.myfragmentapp;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,11 @@ import java.util.Arrays;
  * Created by james on 9/11/14.
  */
 public class MyFragment extends Fragment{
+
+    ChatApdapter chatApdapter;
+    Context context;
+
+
     public MyFragment()  {
     }
 
@@ -26,9 +32,14 @@ public class MyFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_my, container, false);
 
         ListView myListView = (ListView) rootView.findViewById(R.id.my_list_view);
+        final HandlerDatabase handler = new HandlerDatabase(context);
+        Log.i("opening database", "Debug");
+        handler.open();
 
 
-        final ArrayList<String> listChats = new ArrayList<String>(Arrays.asList(new String[]{"chat", "list", "so"}));
+
+        final ArrayList<Chat> listChats = new ArrayList<Chat>();
+
         final ChatApdapter adapter = new ChatApdapter(getActivity(),R.layout.chat_item, listChats);
         myListView.setAdapter(adapter);
 
@@ -39,7 +50,13 @@ public class MyFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 String message = editText.getText().toString();
-                listChats.add(message);
+                Chat chat = new Chat("id", "user", message);
+                handler.addChatToDatabase("id", message);
+                handler.updateChat(chat);
+
+
+                listChats.add(chat);
+                editText.getText().clear();
                 adapter.notifyDataSetChanged();
 //                Log.i("debug","button");
 
