@@ -14,6 +14,7 @@
 
         <!--MainActivity -->
         <string name="button_text">Send</string>
+    <string name="button_text1">Change</string>
         <string name="main_input_hint">Enter message here.</string>
 
         <!-- ChatItem Layout -->

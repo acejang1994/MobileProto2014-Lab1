@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by james on 9/11/14.
  */
-public class ChatAdapter extends ArrayAdapter{
+public class ChatAdapter extends ArrayAdapter<Chat>{
     private List<Chat> chats = new ArrayList<Chat>();
     private int resource;
     private Context context;
@@ -62,8 +62,13 @@ public class ChatAdapter extends ArrayAdapter{
         return this.chats.size();
     }
 
+    @Override
+    public Chat getItem(int position) {
+        return this.chats.get(position);
+    }
+
     private void fillViews(ChatHolder holder, Chat chat){
-        holder.name.setText(chat.getId());
+        holder.name.setText(chat.getName());
         holder.body.setText(chat.getMessage());
         holder.time.setText(String.valueOf(chat.getTime()));
 

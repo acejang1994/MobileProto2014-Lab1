@@ -37,14 +37,15 @@ public class HandlerDatabase {
     /**
      * Add
      */
-    public void addChatToDatabase(String Id, String Message){
+    public void addChatToDatabase(Chat chat){
         ContentValues values = new ContentValues();
-        values.put(ModelDatabase.CHAT_ID, Id);
-        values.put(ModelDatabase.CHAT_NAME, "");
-        values.put(ModelDatabase.CHAT_MESSAGE, Message);
-        values.put(ModelDatabase.CHAT_TIME, "false");
+        values.put(ModelDatabase.CHAT_ID, chat.getId());
+        values.put(ModelDatabase.CHAT_NAME, chat.getName());
+        values.put(ModelDatabase.CHAT_MESSAGE, chat.getMessage());
+        values.put(ModelDatabase.CHAT_TIME, chat.getTime());
         database.insertWithOnConflict(ModelDatabase.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_IGNORE);
     }
+
     public void updateChat(Chat chat){
         ContentValues values = new ContentValues();
         values.put(ModelDatabase.CHAT_ID, chat.getId());
